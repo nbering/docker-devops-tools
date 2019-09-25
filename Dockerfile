@@ -9,13 +9,20 @@ RUN apt-get update && \
     apt-get install -y \
         git \
         wget \
+        curl \
         unzip \
         putty-tools \
         build-essential \
         python-minimal \
         python-setuptools \
         python-dev \
-        ca-certificates && \
+        ca-certificates \
+        apt-transport-https && \
+    curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+    echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ stretch main" | \
+        tee /etc/apt/sources.list.d/azure-cli.list && \
+    apt-get update && \
+    apt-get install azure-cli && \
     easy_install pip && \
     pip install --upgrade pip && \
     pip install 'ansible>=2.7,<2.8' netaddr boto3 boto dnsimple pyOpenSSL awscli && \
